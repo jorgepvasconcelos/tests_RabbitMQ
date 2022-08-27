@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import pika, sys, os
 
-from deco.body_validator import validate_body2 as validate_body
-from deco.body_validator import RequestExpected
+from body_validator import validate_body2 as validate_body
+from body_validator import RequestExpected
 
 
 def main():
