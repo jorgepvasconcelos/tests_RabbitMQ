@@ -12,7 +12,7 @@ class Producer:
         self.create_channel()
         self.declare_exchange()
 
-        binding_key = 'info'
+        binding_key = 'info1'
         body = 'isso e uma info'
         self.publish_message(binding_key=binding_key, body=body)
 

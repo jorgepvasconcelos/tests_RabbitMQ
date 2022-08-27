@@ -1,16 +1,18 @@
 import pika
+from pika.exchange_type import ExchangeType
 
 
-class Consumer:
+class Consumer2:
     def __init__(self):
-        self.exchange_name = 'direct_logs'
-        self.binding_key = 'info'
+        self.EXCHANGE_NAME = 'direct_logs'
+        self.EXCHANGE_TYPE = ExchangeType.direct
+        self.BINDING_KEY = 'info2'
+        self.QUEUE_NAME = ''
 
         self.connection = None
         self.channel = None
         self.exchange = None
         self.queue = None
-        self.queue_name = None
 
     def run(self):
         self.create_connection()
@@ -28,17 +30,17 @@ class Consumer:
         self.channel = self.connection.channel()
 
     def declare_exchange(self):
-        self.exchange = self.channel.exchange_declare(exchange=self.exchange_name, exchange_type='direct')
+        self.exchange = self.channel.exchange_declare(exchange=self.EXCHANGE_NAME, exchange_type=self.EXCHANGE_TYPE)
 
     def declare_queue(self):
-        self.queue = self.channel.queue_declare(queue='', exclusive=True)
-        self.queue_name = self.queue.method.queue
+        self.queue = self.channel.queue_declare(queue=self.QUEUE_NAME, exclusive=True)
+        self.QUEUE_NAME = self.queue.method.queue
 
     def declare_queue_bind(self):
-        self.channel.queue_bind(exchange=self.exchange_name, queue=self.queue_name, routing_key=self.binding_key)
+        self.channel.queue_bind(exchange=self.EXCHANGE_NAME, queue=self.QUEUE_NAME, routing_key=self.BINDING_KEY)
 
     def declare_consume(self):
-        self.channel.basic_consume(queue=self.queue_name, on_message_callback=self.callback, auto_ack=True)
+        self.channel.basic_consume(queue=self.QUEUE_NAME, on_message_callback=self.callback, auto_ack=True)
 
     def start_consuming(self):
         print(f'INICIADO: {self.__class__.__name__}')
@@ -52,6 +54,6 @@ class Consumer:
 
 if __name__ == '__main__':
     try:
-        Consumer().run()
+        Consumer2().run()
     except Exception as e:
         print(e)
