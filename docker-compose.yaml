@@ -1,6 +1,15 @@
 version: "3.8"
 
 services:
+  code_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: code_image
+    container_name: container_code
+    depends_on:
+      - service_rabbitmq
+
   service_rabbitmq:
     image: rabbitmq:3.10-management
     container_name: container_rabbitmq

@@ -1,6 +1,8 @@
 import pika
 from pika.exchange_type import ExchangeType
 
+from func_code.connection import get_connection
+
 
 def producer2():
     producer_name = 'producer2'
@@ -9,9 +11,9 @@ def producer2():
     exchange_type = ExchangeType.direct
     binding_key = 'info2'
 
-    body = b'isso e uma info 2'
+    body = b'isso e uma info 1'
 
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+    connection = get_connection()
 
     channel = connection.channel()
 
@@ -23,6 +25,8 @@ def producer2():
         body=body)
 
     print(f'{producer_name} send a message')
+
+    connection.close()
 
 
 if __name__ == '__main__':

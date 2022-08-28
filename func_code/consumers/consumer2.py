@@ -1,6 +1,8 @@
 import pika
 from pika.exchange_type import ExchangeType
 
+from func_code.connection import get_connection
+
 
 def callback(ch, method, properties, body):
     print(body.decode())
@@ -14,7 +16,7 @@ def consumer2():
     BINDING_KEY = 'info2'
     QUEUE_NAME = ''
 
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+    connection = get_connection()
 
     channel = connection.channel()
 
